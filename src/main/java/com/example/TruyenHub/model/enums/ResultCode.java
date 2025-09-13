@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 public enum ResultCode implements IResultCode{
+    SUCCESS("0000","Thành công"),
     ;
     private String code;
     private  String message;
