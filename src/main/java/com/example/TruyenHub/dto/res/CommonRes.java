@@ -1,8 +1,10 @@
 package com.example.TruyenHub.dto.res;
 
+import com.example.TruyenHub.utils.DateTimeUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import static com.example.TruyenHub.model.enums.ResultCode.SUCCESS;
+import static com.example.TruyenHub.utils.DateTimeUtils.YYYY_MM_DD_T_HH_MM_SS_SSS;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record CommonRes<T>(String resultStatus, String resultMessage, String responseTime, T data) {
