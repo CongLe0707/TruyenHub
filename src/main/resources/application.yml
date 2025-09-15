@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${POSTGRES_DATABASE_URL:localhost}:5432/${POSTGRES_DATABASE_NAME:core_banking}
+    url: jdbc:postgresql://${POSTGRES_DATABASE_URL:localhost}:5432/${POSTGRES_DATABASE_NAME:truyenhub}
     username: ${POSTGRES_DATABASE_USERNAME:postgres}
     password: ${POSTGRES_DATABASE_PASSWORD:12345}
     driver-class-name: org.postgresql.Driver

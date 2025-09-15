@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 public enum ResultCode implements IResultCode{
     SUCCESS("0000","Thành công"),
+    ID_NOT_FOUND("404","Số id đã bị trùng")
     ;
     private String code;
     private  String message;

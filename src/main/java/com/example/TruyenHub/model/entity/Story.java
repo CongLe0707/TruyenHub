@@ -2,16 +2,19 @@ package com.example.TruyenHub.model.entity;
 
 import com.example.TruyenHub.model.enums.StoryStatus;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "stories")
 public class Story {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "UUID")
     private UUID id;
 
     @Column(name = "title", nullable = false, length = 200)
@@ -42,6 +45,10 @@ public class Story {
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
+
+
+    @OneToMany(mappedBy = "story", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Chapter> chapter;
 
 
 }

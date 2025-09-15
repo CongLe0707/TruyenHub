@@ -1,6 +1,7 @@
 package com.example.TruyenHub.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,8 +10,9 @@ import java.util.UUID;
 @Table(name = "authors")
 public class Author {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "UUID")
     private UUID id;
 
     @Column(name = "name", nullable = false, length = 100)
@@ -22,6 +24,6 @@ public class Author {
     @Column(name = "avatar_url", length = 255)
     private String avatarUrl;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Story> stories;
 }

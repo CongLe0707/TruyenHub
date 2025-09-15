@@ -5,9 +5,11 @@ import com.example.TruyenHub.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -15,9 +17,10 @@ import java.util.List;
 @Setter
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "UUID")
+    private UUID id;
 
     @Column(name = "user_name", nullable = false, unique = true, length = 60)
     private String userName;
@@ -38,7 +41,5 @@ public class User {
     @Column(name = "role", nullable = false, length = 20)
     private Role role;
 
-    @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
-    private List<Chapter> chapters;
 
 }
