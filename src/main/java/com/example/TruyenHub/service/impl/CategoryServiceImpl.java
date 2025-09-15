@@ -2,6 +2,7 @@ package com.example.TruyenHub.service.impl;
 
 import com.example.TruyenHub.dto.req.CategoryReq;
 import com.example.TruyenHub.dto.req.CommonReq;
+import com.example.TruyenHub.dto.req.EditCategoryReq;
 import com.example.TruyenHub.dto.res.CategoryRes;
 import com.example.TruyenHub.exception.DelegationServiceException;
 import com.example.TruyenHub.infras.repo.CategoryRepository;
@@ -34,8 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryRes editCategory(CommonReq<CategoryReq> req) {
-        CategoryReq data = req.getData();
+    public CategoryRes editCategory(CommonReq<EditCategoryReq> req) {
+        EditCategoryReq data = req.getData();
 
         Category category = categoryRepository.findById(data.id())
                 .orElseThrow(() -> new DelegationServiceException(
@@ -43,7 +44,14 @@ public class CategoryServiceImpl implements CategoryService {
                         ResultCode.ID_NOT_FOUND.getMessage().formatted(data.id())
                 ));
 
+        category.setName(data.name());
+        category.setDescription(data.description());
+        Category save = categoryRepository.save(category);
 
-        return null;
+        return   new CategoryRes(
+                save.getId(),
+                save.getName(),
+                save.getDescription()
+        );
     }
 }
