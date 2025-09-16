@@ -25,12 +25,11 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryRes createCategory(CommonReq<CategoryReq> req) {
         CategoryReq data = req.getData();
 
-        Category category = categoryMapper.toEntity(data);
-        Category save = categoryRepository.save(category);
+        Category category = categoryRepository.save( categoryMapper.toEntity(data));
             return new CategoryRes(
-                    save.getId(),
-                    save.getName(),
-                    save.getDescription()
+                    category.getId(),
+                    category.getName(),
+                    category.getDescription()
             );
     }
 

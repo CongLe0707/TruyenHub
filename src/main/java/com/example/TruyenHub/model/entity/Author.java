@@ -1,6 +1,8 @@
 package com.example.TruyenHub.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "authors")
+@Getter
+@Setter
 public class Author {
     @Id
     @GeneratedValue(generator = "UUID")
