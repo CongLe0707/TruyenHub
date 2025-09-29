@@ -1,9 +1,10 @@
 package com.example.TruyenHub.controller;
 
-import com.example.TruyenHub.dto.req.AuthorReq;
+import com.example.TruyenHub.dto.req.CategoryReq;
 import com.example.TruyenHub.dto.req.CommonReq;
+import com.example.TruyenHub.dto.req.CreateChapterReq;
 import com.example.TruyenHub.dto.res.CommonRes;
-import com.example.TruyenHub.service.AuthorService;
+import com.example.TruyenHub.service.ChapterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,13 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/author")
-public class AuthorController {
-    private final AuthorService authorService;
+@RequestMapping("/api/chapter")
+public class ChapterController {
+    private  final ChapterService chapterService;
 
     @PostMapping("/create")
-    public ResponseEntity<CommonRes> createAuthor (@RequestBody CommonReq<AuthorReq> req) {
-       return ApiHandler.handle(req,authorService::createAuthor);
+    public ResponseEntity<CommonRes> createChapter(@RequestBody CommonReq<CreateChapterReq> req) {
+        return ApiHandler.handle(req,chapterService::createChapter);
     }
-
 }

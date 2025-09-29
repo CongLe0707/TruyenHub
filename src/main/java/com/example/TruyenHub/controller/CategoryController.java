@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/api/category")
 public class CategoryController {
     private final CategoryService categoryService;
 

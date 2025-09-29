@@ -27,7 +27,7 @@ public  class AuthorServiceImpl implements AuthorService {
         return new AuthorRes (
                 author.getId(),
                 author.getName(),
-                author .getBio()
+                author.getBio()
         );
     }
 }

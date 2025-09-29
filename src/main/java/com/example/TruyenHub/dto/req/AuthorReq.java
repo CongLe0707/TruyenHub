@@ -5,6 +5,5 @@ import jakarta.persistence.Column;
 public record AuthorReq (
         String name,
         String bio
-
 ) {
 }
