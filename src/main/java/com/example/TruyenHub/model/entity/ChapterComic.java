@@ -1,13 +1,20 @@
 package com.example.TruyenHub.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class ChapterCommic {
+
+@Entity
+@Table(name = "chapter_comic")
+@Getter
+@Setter
+public class ChapterComic {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -28,7 +35,7 @@ public class ChapterCommic {
 
     @ManyToOne
     @JoinColumn(name = "commic_id", nullable = false)
-    private Commic commic;
+    private Comic commic;
 
     // Một chap có nhiều ảnh
     @OneToMany(mappedBy = "chapterCommic", cascade = CascadeType.ALL, orphanRemoval = true)

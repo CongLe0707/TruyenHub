@@ -1,13 +1,19 @@
 package com.example.TruyenHub.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class Commic {
+@Entity
+@Table(name = "comics")
+@Getter
+@Setter
+public class Comic {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -45,6 +51,11 @@ public class Commic {
 
 
     @OneToMany(mappedBy = "commic", cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<ChapterCommic> chapterCommics;
+    private List<ChapterComic> chapterComics;
+
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "type", length = 20, nullable = false)
+//    private CommicType type;
+
 
 }

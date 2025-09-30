@@ -1,37 +1,37 @@
 package com.example.TruyenHub.service.impl;
 
 import com.example.TruyenHub.dto.req.CommonReq;
+import com.example.TruyenHub.dto.req.CreateComicReq;
 import com.example.TruyenHub.dto.req.CreateStoryReq;
+import com.example.TruyenHub.dto.res.CreateComicRes;
 import com.example.TruyenHub.dto.res.CreateStoryRes;
 import com.example.TruyenHub.exception.DelegationServiceException;
 import com.example.TruyenHub.infras.repo.AuthorRepository;
 import com.example.TruyenHub.infras.repo.CategoryRepository;
-import com.example.TruyenHub.infras.repo.StoryRepository;
-import com.example.TruyenHub.mapper.StoryMapper;
+import com.example.TruyenHub.infras.repo.ComicRepository;
+import com.example.TruyenHub.mapper.ComicMapper;
 import com.example.TruyenHub.model.entity.Author;
 import com.example.TruyenHub.model.entity.Category;
-import com.example.TruyenHub.model.entity.Story;
+import com.example.TruyenHub.model.entity.Comic;
 import com.example.TruyenHub.model.enums.ResultCode;
-import com.example.TruyenHub.service.StoryService;
+import com.example.TruyenHub.service.ComicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-
 @Service
 @RequiredArgsConstructor
-public class StoryServiceImpl implements StoryService {
+public class ComicServiceImpl implements ComicService {
 
-    private final StoryRepository storyRepository;
+    private final ComicRepository comicRepository;
+    private final ComicMapper comicMapper;
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
-    private final StoryMapper storyMapper;
-
 
     @Override
-    public CreateStoryRes createNovel(CommonReq<CreateStoryReq> req) {
-        CreateStoryReq data = req.getData();
+    public CreateComicRes createComic(CommonReq<CreateComicReq> req) {
+        CreateComicReq data = req.getData();
         Author author = authorRepository.findByName(data.authorName())
                 .orElseThrow(() -> new DelegationServiceException(
                         ResultCode.NO_AUTHOR.getCode(),
@@ -42,16 +42,16 @@ public class StoryServiceImpl implements StoryService {
                         ResultCode.NO_CATEGORY.getCode(),
                         ResultCode.NO_CATEGORY.getMessage())
                 );
-        Story story = storyMapper.toEntity(data);
-        story.setAuthor(author);
-        story.setCategory(category);
-        story.setCreatedAt(LocalDateTime.now());
-        story.setUpdatedAt(LocalDateTime.now());
+        Comic comic = comicMapper.toEntity(data);
+        comic.setAuthor(author);
+        comic.setCategory(category);
+        comic.setCreatedAt(LocalDateTime.now());
+        comic.setUpdatedAt(LocalDateTime.now());
 
-        Story saved = storyRepository.save(story);
+        Comic saved = comicRepository.save(comic);
 
 
-        return new CreateStoryRes(
+        return new CreateComicRes(
                 saved.getId(),
                 saved.getTitle(),
                 saved.getDescription(),

@@ -1,6 +1,7 @@
 package com.example.TruyenHub.model.entity;
 
-import com.example.TruyenHub.model.enums.StoryStatus;
+import com.example.TruyenHub.model.enums.CommicType;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,9 +51,11 @@ public class Story {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-
     @OneToMany(mappedBy = "story", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Chapter> chapter;
 
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "type", length = 20, nullable = false)
+//    private CommicType type;
 
 }

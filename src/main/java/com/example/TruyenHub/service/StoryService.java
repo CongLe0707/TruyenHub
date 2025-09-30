@@ -5,5 +5,5 @@ import com.example.TruyenHub.dto.req.CreateStoryReq;
 import com.example.TruyenHub.dto.res.CreateStoryRes;
 
 public interface StoryService {
-    CreateStoryRes createStory(CommonReq<CreateStoryReq> req);
+    CreateStoryRes createNovel(CommonReq<CreateStoryReq> req);
 }

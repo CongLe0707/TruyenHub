@@ -24,9 +24,9 @@ public class ChapterImage {
     private String imageUrl;
 
     @Column(name = "page_number", nullable = false)
-    private Integer pageNumber; // để sắp xếp đúng thứ tự ảnh trong chap
+    private Integer pageNumber;
 
     @ManyToOne
     @JoinColumn(name = "chapter_id", nullable = false)
-    private ChapterCommic chapterCommic;
+    private ChapterComic chapterCommic;
 }
