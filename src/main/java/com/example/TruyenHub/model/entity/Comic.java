@@ -50,7 +50,7 @@ public class Comic {
     private Author author;
 
 
-    @OneToMany(mappedBy = "commic", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "comic", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ChapterComic> chapterComics;
 
 //    @Enumerated(EnumType.STRING)

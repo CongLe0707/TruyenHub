@@ -28,5 +28,6 @@ public class ChapterImage {
 
     @ManyToOne
     @JoinColumn(name = "chapter_id", nullable = false)
-    private ChapterComic chapterCommic;
+    private ChapterComic chapterComic;
+
 }
