@@ -18,7 +18,7 @@ public enum ResultCode implements IResultCode{
 
 
     private String code;
-    private  String message;
+    private String message;
 
     ResultCode(String code, String message ) {
         this.code = code;
