@@ -42,15 +42,15 @@ public class ComicServiceImpl implements ComicService {
                         ResultCode.NO_CATEGORY.getCode(),
                         ResultCode.NO_CATEGORY.getMessage())
                 );
+
         Comic comic = comicMapper.toEntity(data);
+
         comic.setAuthor(author);
         comic.setCategory(category);
         comic.setCreatedAt(LocalDateTime.now());
         comic.setUpdatedAt(LocalDateTime.now());
 
         Comic saved = comicRepository.save(comic);
-
-
         return new CreateComicRes(
                 saved.getId(),
                 saved.getTitle(),

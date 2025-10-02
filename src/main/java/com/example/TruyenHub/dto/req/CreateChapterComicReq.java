@@ -1,11 +1,13 @@
 package com.example.TruyenHub.dto.req;
 
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
+
+
 
 public record CreateChapterComicReq(
         String comicName,
         String title,
         Integer chapterNumber,
-        List<String> imageUrls
+        MultipartFile[] imageUrls
 ) {
 }
