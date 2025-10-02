@@ -2,15 +2,14 @@ package com.example.TruyenHub.controller;
 
 import com.example.TruyenHub.dto.req.CommonReq;
 import com.example.TruyenHub.dto.req.CreateChapterComicReq;
-import com.example.TruyenHub.dto.req.CreateChapterReq;
+import org.springframework.http.MediaType;
+
 import com.example.TruyenHub.dto.res.CommonRes;
 import com.example.TruyenHub.service.ChapterComicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,8 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChapterComicController {
     private final ChapterComicService chapterComicService;
 
-    @PostMapping("/create")
-    public ResponseEntity<CommonRes> createChapterComic(@RequestBody CommonReq<CreateChapterComicReq> req) {
-        return ApiHandler.handle(req,chapterComicService::createChapterComic);
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CommonRes> createChapterComic(
+            @RequestParam String comicName,
+            @RequestParam String title,
+            @RequestParam Integer chapterNumber,
+            @RequestParam("imageUrls") MultipartFile[] files
+    ) {
+        CreateChapterComicReq data = new CreateChapterComicReq(comicName, title, chapterNumber, files);
+        return ApiHandler.handle(new CommonReq<>(data), chapterComicService::createChapterComic);
     }
+
+
 }

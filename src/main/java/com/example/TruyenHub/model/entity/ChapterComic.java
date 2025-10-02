@@ -37,10 +37,6 @@ public class ChapterComic {
     @JoinColumn(name = "comic_id", nullable = false)
     private Comic comic;
 
-    @Column(name = "image_path", nullable = false, length = 500)
-    private String imagePath;
-
-
     // Một chap có nhiều ảnh
     @OneToMany(mappedBy = "chapterComic", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChapterImage> images;
