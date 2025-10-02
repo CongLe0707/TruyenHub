@@ -1,9 +1,13 @@
 package com.example.TruyenHub.dto.req;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.web.multipart.MultipartFile;
+
 public record CreateComicReq (
         String title,
         String description,
-        String coverImage,
+        @JsonIgnore
+        MultipartFile coverImage,
         String categoriName,
         String authorName
 

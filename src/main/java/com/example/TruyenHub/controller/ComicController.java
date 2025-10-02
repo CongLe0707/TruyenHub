@@ -5,6 +5,7 @@ import com.example.TruyenHub.dto.req.CreateComicReq;
 import com.example.TruyenHub.dto.res.CommonRes;
 import com.example.TruyenHub.service.ComicService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +18,11 @@ public class ComicController {
 
     private final ComicService comicService;
 
-    @PostMapping("/create")
-    public ResponseEntity<CommonRes> createComic(@RequestBody CommonReq<CreateComicReq> req) {
-        return ApiHandler.handle(req, comicService::createComic);
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CommonRes> createComic(@ModelAttribute CreateComicReq req) {
+        return ApiHandler.handle(new CommonReq<>(req), comicService::createComic);
     }
+
 
     @GetMapping("/detail/{comicId}")
     public ResponseEntity<CommonRes> getComicDetail(@PathVariable UUID comicId) {

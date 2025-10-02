@@ -15,6 +15,7 @@ public interface ComicMapper {
     @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "author", ignore = true)            // set sau trong service
     @Mapping(target = "category", ignore = true)          // set sau trong service
-    @Mapping(target = "chapterComics", ignore = true)           // set sau nếu cần
+    @Mapping(target = "chapterComics", ignore = true)
+    @Mapping(target = "coverImage", ignore = true) // set sau nếu cần
     Comic toEntity(CreateComicReq req);
 }

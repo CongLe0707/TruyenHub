@@ -2,10 +2,8 @@ package com.example.TruyenHub.service.impl;
 
 import com.example.TruyenHub.dto.req.CommonReq;
 import com.example.TruyenHub.dto.req.CreateComicReq;
-import com.example.TruyenHub.dto.req.CreateStoryReq;
 import com.example.TruyenHub.dto.res.ComicDetailRes;
 import com.example.TruyenHub.dto.res.CreateComicRes;
-import com.example.TruyenHub.dto.res.CreateStoryRes;
 import com.example.TruyenHub.exception.DelegationServiceException;
 import com.example.TruyenHub.infras.repo.AuthorRepository;
 import com.example.TruyenHub.infras.repo.CategoryRepository;
@@ -18,9 +16,17 @@ import com.example.TruyenHub.model.enums.ResultCode;
 import com.example.TruyenHub.service.ComicService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -31,6 +37,9 @@ public class ComicServiceImpl implements ComicService {
     private final ComicMapper comicMapper;
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     @Override
     public CreateComicRes createComic(CommonReq<CreateComicReq> req) {
@@ -45,13 +54,14 @@ public class ComicServiceImpl implements ComicService {
                         ResultCode.NO_CATEGORY.getCode(),
                         ResultCode.NO_CATEGORY.getMessage())
                 );
-
         Comic comic = comicMapper.toEntity(data);
 
         comic.setAuthor(author);
         comic.setCategory(category);
         comic.setCreatedAt(LocalDateTime.now());
         comic.setUpdatedAt(LocalDateTime.now());
+
+        ComicCoverImage(comic, data.coverImage());
 
         Comic saved = comicRepository.save(comic);
         return new CreateComicRes(
@@ -64,7 +74,6 @@ public class ComicServiceImpl implements ComicService {
 
         );
     }
-
 
 //Chi tiết truyện
     @Transactional
@@ -94,4 +103,36 @@ public class ComicServiceImpl implements ComicService {
                         .toList()
         );
     }
+
+
+
+
+    private String saveFile(MultipartFile file, String folderName) throws IOException {
+        Path folderPath = Paths.get(uploadDir, folderName);
+        if (!Files.exists(folderPath)) {
+            Files.createDirectories(folderPath);
+        }
+
+        String fileName = UUID.randomUUID() + "_" + Objects.requireNonNull(file.getOriginalFilename());
+        Path filePath = folderPath.resolve(fileName);
+
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        // Trả về relative path (để dùng API load ảnh tĩnh)
+        return "/uploads/ComicCoverImage/" + folderName + "/" + fileName;
+    }
+
+    private void ComicCoverImage(Comic comic, MultipartFile coverImage) {
+        if (coverImage != null && !coverImage.isEmpty()) {
+            try {
+                String filePath = saveFile(coverImage, "comic_covers");
+                comic.setCoverImage(filePath); // ✅ set path vào entity
+            } catch (IOException e) {
+                throw new RuntimeException("Lỗi lưu ảnh bìa: " + coverImage.getOriginalFilename(), e);
+            }
+        }
+    }
+
+
+
 }
