@@ -12,6 +12,6 @@ public interface ComicService {
 
     CreateComicRes createComic(CommonReq<CreateComicReq> req);
 
-    ComicDetailRes detailRes(UUID comicId);
+    ComicDetailRes detailComic(UUID comicId);
 
 }

@@ -26,7 +26,7 @@ public class ComicController {
 
     @GetMapping("/detail/{comicId}")
     public ResponseEntity<CommonRes> getComicDetail(@PathVariable UUID comicId) {
-        return ApiHandler.handle(null, req -> comicService.detailRes(comicId));
+        return ApiHandler.handle(null, req -> comicService.detailComic(comicId));
     }
 
 }

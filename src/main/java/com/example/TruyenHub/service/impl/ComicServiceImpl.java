@@ -78,7 +78,7 @@ public class ComicServiceImpl implements ComicService {
 //Chi tiết truyện
     @Transactional
     @Override
-    public ComicDetailRes detailRes(UUID comicId) {
+    public ComicDetailRes detailComic(UUID comicId) {
 
         Comic comic = comicRepository.findById(comicId)
                 .orElseThrow(() -> new DelegationServiceException(
@@ -105,8 +105,6 @@ public class ComicServiceImpl implements ComicService {
     }
 
 
-
-
     private String saveFile(MultipartFile file, String folderName) throws IOException {
         Path folderPath = Paths.get(uploadDir, folderName);
         if (!Files.exists(folderPath)) {
@@ -125,8 +123,8 @@ public class ComicServiceImpl implements ComicService {
     private void ComicCoverImage(Comic comic, MultipartFile coverImage) {
         if (coverImage != null && !coverImage.isEmpty()) {
             try {
-                String filePath = saveFile(coverImage, "comic_covers");
-                comic.setCoverImage(filePath); // ✅ set path vào entity
+                String filePath = saveFile(coverImage, "Comic");
+                comic.setCoverImage(filePath);
             } catch (IOException e) {
                 throw new RuntimeException("Lỗi lưu ảnh bìa: " + coverImage.getOriginalFilename(), e);
             }
