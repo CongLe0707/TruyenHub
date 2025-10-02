@@ -130,9 +130,6 @@ public class ChapterComicServiceImpl implements ChapterComicService {
                     );
                 }
 
-
-
-
                 ChapterImage img = new ChapterImage();
                 img.setImageUrl(filePath);
                 img.setPageNumber(i + 1);

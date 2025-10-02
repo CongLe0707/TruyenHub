@@ -3,6 +3,7 @@ package com.example.TruyenHub.service.impl;
 import com.example.TruyenHub.dto.req.CommonReq;
 import com.example.TruyenHub.dto.req.CreateComicReq;
 import com.example.TruyenHub.dto.req.CreateStoryReq;
+import com.example.TruyenHub.dto.res.ComicDetailRes;
 import com.example.TruyenHub.dto.res.CreateComicRes;
 import com.example.TruyenHub.dto.res.CreateStoryRes;
 import com.example.TruyenHub.exception.DelegationServiceException;
@@ -15,10 +16,12 @@ import com.example.TruyenHub.model.entity.Category;
 import com.example.TruyenHub.model.entity.Comic;
 import com.example.TruyenHub.model.enums.ResultCode;
 import com.example.TruyenHub.service.ComicService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -59,6 +62,36 @@ public class ComicServiceImpl implements ComicService {
                 saved.getAuthor().getName(),
                 saved.getCreatedAt()
 
+        );
+    }
+
+
+//Chi tiết truyện
+    @Transactional
+    @Override
+    public ComicDetailRes detailRes(UUID comicId) {
+
+        Comic comic = comicRepository.findById(comicId)
+                .orElseThrow(() -> new DelegationServiceException(
+                        ResultCode.NO_COMIC_ID.getCode(),
+                        ResultCode.NO_COMIC_ID.getMessage())
+                );
+
+        return new ComicDetailRes(
+                comic.getId(),
+                comic.getTitle(),
+                comic.getDescription(),
+                comic.getCoverImage(),
+                comic.getCategory().getName(),
+                comic.getAuthor().getName(),
+                comic.getCreatedAt(),
+                comic.getChapterComics().stream()
+                        .map(ch -> new ComicDetailRes.ChapterComicDto(
+                                ch.getId(),
+                                ch.getTitle(),
+                                ch.getCreatedAt()
+                        ))
+                        .toList()
         );
     }
 }
