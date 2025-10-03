@@ -7,10 +7,9 @@ import com.example.TruyenHub.dto.res.CommonRes;
 import com.example.TruyenHub.service.ChapterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,5 +20,10 @@ public class ChapterController {
     @PostMapping("/create")
     public ResponseEntity<CommonRes> createChapter(@RequestBody CommonReq<CreateChapterReq> req) {
         return ApiHandler.handle(req,chapterService::createChapter);
+    }
+
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<CommonRes> detailChapter(@PathVariable UUID id) {
+        return  ApiHandler.handle(null, req -> chapterService.detailChapterStory(id));
     }
 }

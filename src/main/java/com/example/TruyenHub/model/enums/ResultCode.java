@@ -12,7 +12,7 @@ public enum ResultCode implements IResultCode{
     INTERNAL_SERVER_ERROR("234", "Lỗi server"),
 
     NO_AUTHOR("411","Không tim thấy tác giả"),
-    NO_CATEGORY("412","không tìm thấy tên tác giả" ),
+    NO_CATEGORY("412","không tìm thấy Thể loại" ),
     NO_STORY_NAME("413","Không tìm thấy truyện" ),
     NO_COMIC_NAME("414","Không tìm thấy truyện tranh" ),
     DUPLICATE_CHAPTER("415", "Chapter đã ra rồi vui lòng nhập lại chapter"),
