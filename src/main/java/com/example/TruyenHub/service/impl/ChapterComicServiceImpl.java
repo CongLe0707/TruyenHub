@@ -2,6 +2,7 @@ package com.example.TruyenHub.service.impl;
 
 import com.example.TruyenHub.dto.req.CommonReq;
 import com.example.TruyenHub.dto.req.CreateChapterComicReq;
+import com.example.TruyenHub.dto.res.ChapterComicDetailRes;
 import com.example.TruyenHub.dto.res.CreateChapterComicRes;
 import com.example.TruyenHub.exception.DelegationServiceException;
 import com.example.TruyenHub.infras.repo.ChapterComicRepository;
@@ -13,6 +14,7 @@ import com.example.TruyenHub.model.entity.ChapterImage;
 import com.example.TruyenHub.model.entity.Comic;
 import com.example.TruyenHub.model.enums.ResultCode;
 import com.example.TruyenHub.service.ChapterComicService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -89,6 +91,35 @@ public class ChapterComicServiceImpl implements ChapterComicService {
         );
     }
 
+
+//Chi tiết chapter comic
+    @Transactional
+    @Override
+    public ChapterComicDetailRes detailChapterComic(UUID id) {
+
+        ChapterComic chapterComic = chapterComicRepository.findById(id)
+                .orElseThrow(() -> new DelegationServiceException(
+                        ResultCode.NO_CHAPTER_COMIC.getCode(),
+                        ResultCode.NO_CHAPTER_COMIC.getMessage())
+                );
+
+        return new ChapterComicDetailRes(
+                chapterComic.getId(),
+                chapterComic.getTitle(),
+                chapterComic.getChapterNumber(),
+                chapterComic.getCreatedAt(),
+                chapterComic.getUpdatedAt(),
+                chapterComic.getImages().stream()
+                        .map(img -> new ChapterComicDetailRes.ImageDto(
+                                img.getId(),
+                                img.getImageUrl(),
+                                img.getPageNumber()
+                        ))
+                        .toList()
+        );
+    }
+
+    // sử lí hình ảnh
     private String saveFile(MultipartFile file, String folderName) throws IOException {
         Path folderPath = Paths.get(uploadDir, folderName);
         if (!Files.exists(folderPath)) {
