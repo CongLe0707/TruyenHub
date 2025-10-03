@@ -1,12 +1,10 @@
 package com.example.TruyenHub.dto.res;
 
-import com.example.TruyenHub.model.entity.ChapterComic;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public record ComicDetailRes (
+public record DetailComicRes(
         UUID id,
         String title,
         String description,
@@ -18,6 +16,7 @@ public record ComicDetailRes (
 ){
     public record ChapterComicDto(
             UUID id,
+            Integer numberChapter,
             String title,
             LocalDateTime createdAt
     ) {}

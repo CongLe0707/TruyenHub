@@ -51,7 +51,7 @@ public class Story {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    @OneToMany(mappedBy = "story", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "story",  fetch = FetchType.EAGER)
     private List<Chapter> chapter;
 
 //    @Enumerated(EnumType.STRING)

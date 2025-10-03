@@ -4,16 +4,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public record ListComicRes (
-        List<ComicDtoList> comicDtoList
+public record ListStoryRes (
+        List<StoryDtoList> storyDtoLists
 ) {
-    public  record ComicDtoList(
+    public record StoryDtoList(
             UUID id,
             String title,
             String description,
             String categoriName,
             String authorName,
             LocalDateTime createdAt
-    ) {}
-
+    ) {
+    }
 }

@@ -3,6 +3,9 @@ package com.example.TruyenHub.service.impl;
 import com.example.TruyenHub.dto.req.CommonReq;
 import com.example.TruyenHub.dto.req.CreateStoryReq;
 import com.example.TruyenHub.dto.res.CreateStoryRes;
+import com.example.TruyenHub.dto.res.DetailComicRes;
+import com.example.TruyenHub.dto.res.DetailStoryRes;
+import com.example.TruyenHub.dto.res.ListStoryRes;
 import com.example.TruyenHub.exception.DelegationServiceException;
 import com.example.TruyenHub.infras.repo.AuthorRepository;
 import com.example.TruyenHub.infras.repo.CategoryRepository;
@@ -17,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -60,5 +65,47 @@ public class StoryServiceImpl implements StoryService {
                 saved.getCreatedAt()
 
         );
+    }
+
+    @Override
+    public ListStoryRes listStory() {
+        List<ListStoryRes.StoryDtoList> stories = storyRepository.findAll()
+                .stream()
+                .map(story -> new ListStoryRes.StoryDtoList(
+                        story.getId(),
+                        story.getTitle(),
+                        story.getDescription(),
+                        story.getCategory().getName(),
+                        story.getAuthor().getName(),
+                        story.getCreatedAt()
+                ))
+                .toList();
+        return new ListStoryRes(stories);
+    }
+
+
+    @Override
+    public DetailStoryRes detailStory(UUID id) {
+        Story story = storyRepository.findById(id)
+                .orElseThrow(() -> new DelegationServiceException(
+                    ResultCode.NO_STORY_NAME.getCode(),
+                    ResultCode.NO_STORY_NAME.getMessage())
+        );
+        return new DetailStoryRes (story.getId(),
+                story.getTitle(),
+                story.getDescription(),
+                story.getCategory().getName(),
+                story.getAuthor().getName(),
+                story.getCreatedAt(),
+                story.getChapter().stream()
+                        .map(ch -> new DetailStoryRes.ChapterStoryDto(
+                                ch.getId(),
+                                ch.getChapterNumber(),
+                                ch.getTitle(),
+                                ch.getCreatedAt()
+                        ))
+                        .toList()
+        );
+
     }
 }

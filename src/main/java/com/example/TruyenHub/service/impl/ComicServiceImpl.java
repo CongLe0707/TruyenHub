@@ -2,7 +2,7 @@ package com.example.TruyenHub.service.impl;
 
 import com.example.TruyenHub.dto.req.CommonReq;
 import com.example.TruyenHub.dto.req.CreateComicReq;
-import com.example.TruyenHub.dto.res.ComicDetailRes;
+import com.example.TruyenHub.dto.res.DetailComicRes;
 import com.example.TruyenHub.dto.res.CreateComicRes;
 import com.example.TruyenHub.dto.res.ListComicRes;
 import com.example.TruyenHub.exception.DelegationServiceException;
@@ -80,7 +80,7 @@ public class ComicServiceImpl implements ComicService {
 //Chi tiết truyện
     @Transactional
     @Override
-    public ComicDetailRes detailComic(UUID comicId) {
+    public DetailComicRes detailComic(UUID comicId) {
 
         Comic comic = comicRepository.findById(comicId)
                 .orElseThrow(() -> new DelegationServiceException(
@@ -88,7 +88,7 @@ public class ComicServiceImpl implements ComicService {
                         ResultCode.NO_COMIC_ID.getMessage())
                 );
 
-        return new ComicDetailRes(
+        return new DetailComicRes(
                 comic.getId(),
                 comic.getTitle(),
                 comic.getDescription(),
@@ -97,8 +97,9 @@ public class ComicServiceImpl implements ComicService {
                 comic.getAuthor().getName(),
                 comic.getCreatedAt(),
                 comic.getChapterComics().stream()
-                        .map(ch -> new ComicDetailRes.ChapterComicDto(
+                        .map(ch -> new DetailComicRes.ChapterComicDto(
                                 ch.getId(),
+                                ch.getChapterNumber(),
                                 ch.getTitle(),
                                 ch.getCreatedAt()
                         ))
