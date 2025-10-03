@@ -29,4 +29,9 @@ public class ComicController {
         return ApiHandler.handle(null, req -> comicService.detailComic(comicId));
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<CommonRes> getAllComics() {
+        return ApiHandler.handle(null,req -> comicService.listComic());
+    }
+
 }

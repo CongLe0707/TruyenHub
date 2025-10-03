@@ -4,6 +4,7 @@ import com.example.TruyenHub.dto.req.CommonReq;
 import com.example.TruyenHub.dto.req.CreateComicReq;
 import com.example.TruyenHub.dto.res.ComicDetailRes;
 import com.example.TruyenHub.dto.res.CreateComicRes;
+import com.example.TruyenHub.dto.res.ListComicRes;
 import com.example.TruyenHub.exception.DelegationServiceException;
 import com.example.TruyenHub.infras.repo.AuthorRepository;
 import com.example.TruyenHub.infras.repo.CategoryRepository;
@@ -26,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -104,6 +106,21 @@ public class ComicServiceImpl implements ComicService {
         );
     }
 
+
+    @Override
+    public ListComicRes listComic() {
+        List<ListComicRes.ComicDtoList> comicDtos = comicRepository.findAll().stream()
+                .map(comic -> new ListComicRes.ComicDtoList(
+                        comic.getId(),
+                        comic.getTitle(),
+                        comic.getDescription(),
+                        comic.getCategory().getName(),
+                        comic.getAuthor().getName(),
+                        comic.getCreatedAt()
+                ))
+                .toList();
+        return new ListComicRes(comicDtos);
+    }
 
     private String saveFile(MultipartFile file, String folderName) throws IOException {
         Path folderPath = Paths.get(uploadDir, folderName);

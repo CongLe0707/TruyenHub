@@ -1,6 +1,19 @@
 package com.example.TruyenHub.dto.res;
 
-public record ListComicRes (
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
+public record ListComicRes (
+        List<ComicDtoList> comicDtoList
 ) {
+    public record ComicDtoList(
+            UUID id,
+            String title,
+            String description,
+            String categoriName,
+            String authorName,
+            LocalDateTime createdAt
+    ) {}
+
 }
